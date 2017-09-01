@@ -1,0 +1,13 @@
+home:
+    path: /
+    defaults:
+        _controller: 'Slim\Controllers\IndexController::indexAction'
+
+hello:
+    path: /hello
+    defaults:
+        _controller: 'IndexController::helloAction'
+
+api:
+    prefix: api/
+    resource: "routes/api.yml"

@@ -1,0 +1,14 @@
+is_debug: true
+dir:
+    log: /data/logs/watch
+    data: /data/watch
+    cache: /Users/og/Documents/wwwroot/silex/cache
+db:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    password: 123456
+    dbname: slim
+memcached:
+    host: 127.0.0.1
+    port: 11211

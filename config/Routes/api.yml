@@ -1,0 +1,4 @@
+get_user_info:
+    path: /get-game-info/{code}
+    defaults:
+        _controller: 'Slim\Controllers\GameController::indexAction'
