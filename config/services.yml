@@ -1,38 +1,5 @@
 
 services:
-    app:
-        properties:
-            logging:
-                path: '%app.dir.log%'
-                level: debug
-            cli:
-                name: watch
-                version: '0.1'
-            http:
-                cache_dir: '%app.dir.cache%'
-                routing:
-                    path: '%app.dir.config%/routes.yml'
-                    namespaces:
-                        - Oasis\Watch\
-                        - Oasis\Watch\Controllers\
-
-                cors:
-                    -
-                        pattern: ^/report/.*
-                        origins:
-                            - watch-test.oasgames.com
-                            - watch-dev.oasgames.com
-                            - watch.oasgames.com
-                twig:
-                    template_dir: '%app.dir.template%'
-                    globals:
-                        app: '@app'
-                        pages: '%pages%'
-                        twig_params: "@twig_params"
-
-                injected_args:
-                    - '@entity_manager'
-                    - '@item_manager'
 
     memcached:
         class: Memcached
@@ -45,6 +12,6 @@ services:
     entity_manager:
         class: Doctrine\ORM\EntityManager
         factory:
-            - Oasis\Watch\Database\WatchDatabase
+            - Slim\Database\Database
             - getEntityManager
 

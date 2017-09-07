@@ -4,9 +4,18 @@ home:
         _controller: 'Slim\Controllers\IndexController::indexAction'
 
 hello:
-    path: /hello
+    path: /admin
     defaults:
-        _controller: 'IndexController::helloAction'
+        _controller: 'Slim\Controllers\Admin\AdminController::indexAction'
+
+login:
+    path: /login
+    defaults:
+        _controller: 'IndexController::loginAction'
+login_check:
+    path: /login_check
+    defaults:
+        _controller: 'IndexController::loginCheckAction'
 
 api:
     prefix: api/

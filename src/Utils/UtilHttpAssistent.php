@@ -11,10 +11,7 @@ namespace Slim\Utils;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;  
 
-/**
- * Class RequestAssist
- * @package Oasis\Watch\Common\Utils
- */
+
 class HttpAssistent
 {
 

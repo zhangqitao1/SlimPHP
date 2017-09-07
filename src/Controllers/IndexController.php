@@ -8,8 +8,7 @@
 
 namespace Slim\Controllers;
 
-use Silex\Application;
-use Symfony\Component\Routing\Annotation\Route;
+use Silex\Application; 
 
 class IndexController
 {
@@ -24,9 +23,14 @@ class IndexController
         return $app['twig']->render('index.html.twig', []);
     }
 
-    public static function helloAction(Application $app)
+    public static function loginAction(Application $app)
     {
 
-        return 'xx';
+        return $app['twig']->render('index.html.twig', []);
+    }
+    public static function login_check(Application $app)
+    {
+
+        return true;
     }
 }

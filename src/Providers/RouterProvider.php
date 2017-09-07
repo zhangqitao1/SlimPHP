@@ -8,6 +8,7 @@ use Silex\ControllerCollection;
 use Silex\Api\EventListenerProviderInterface;
 use Silex\Provider\Routing\RedirectableUrlMatcher;
 use Silex\Provider\Routing\LazyRequestMatcher;
+use Slim\SlimPHP;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -35,15 +36,15 @@ class RouterProvider implements ServiceProviderInterface, EventListenerProviderI
             return new $app['route_class']();
         });
 
-        $app['routes_factory'] = $app->factory(function ($app) {
+        $app['routes_factory'] = $app->factory(function (SlimPHP $app) {
 
             $requestContext = $app['request_context'];
-            $locator        = new FileLocator([$app['configPath']]);
+            $locator        = new FileLocator([$app->getConfigKey('config_path')]);
             $loader         = new YamlFileLoader($locator);
             $router         = new Router(
                 $loader,
                 'routes.yml',
-                ['cache_dir' => $app['cachePath'] . '/cache'],
+                ['cache_dir' => $app->getConfigKey('app.dir.cache') . '/cache'],
                 $requestContext
             );
             return $router->getRouteCollection();

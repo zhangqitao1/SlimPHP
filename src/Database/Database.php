@@ -31,7 +31,7 @@ class Database
         $config   = Setup::createAnnotationMetadataConfiguration(
             [PROJECT_DIR . "/src/Entities"],
             $app['debug'],
-            $app['dataPath'] . "/proxies",
+            $app->getConfigKey('app.dir.data') . "/proxies",
             $memcache,
             false /* do not use simple annotation reader, so that we can understand annotations like @ORM/Table */
         );
@@ -42,7 +42,7 @@ class Database
         $config->setSecondLevelCacheEnabled();
         $config->getSecondLevelCacheConfiguration()->setCacheFactory($factory);
 
-        $conn           = $app['config']['db'];
+        $conn           = $app->getConfigKey('app.db');
         $conn["driver"] = "pdo_mysql";
         $entityManager  = EntityManager::create($conn, $config);
 
@@ -52,10 +52,9 @@ class Database
     public static function getMemcache()
     {
 
-        $app       = SlimPHP::app();
-        $memcache  = new MemcachedCache();
-        $memcached = new \Memcached();
-        $memcached->addServer($app['config']['memcached']['host'], $app['config']['memcached']['port']);
+        
+        $memcached      = SlimPHP::app()->getServiceId('memcached');
+        $memcache  = new MemcachedCache(); 
         $memcache->setMemcached($memcached);
 
         return $memcache;

@@ -8,19 +8,20 @@
 
 use Slim\Database\Database;
 use Slim\Entities\Game;
+use Slim\SlimPHP; 
 
+/** @var SlimPHP $app */
 $app = require_once __DIR__ . "/bootstrap.php";
+ 
+ 
+//$app->log()->addDebug('x');
 
-$em = Database::getEntityManager();
 
-//$game = new Game();
-//$game->setCode('xx');
-//$game->setGameId(1);
+//$em = Database::getEntityManager();
+//$games = $em->getRepository(Game::class)->findAll();
 //
-//$em->persist($game);
-//$em->flush();
+//print_r($games);
 
-$games = $em->getRepository(Game::class)->findAll();
-print_r($games);
-echo 'x';
+$a = SlimPHP::app();
+$a->getServiceId('memcached');
 
