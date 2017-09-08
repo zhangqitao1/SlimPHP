@@ -17,6 +17,7 @@ $app = require __DIR__ . '/../bootstrap.php';
 
 $console = $app->getConsoleApplication();
 $console->addCommands([
+    
                           new TestCommand(),
                       ]);
 

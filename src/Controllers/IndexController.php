@@ -8,7 +8,8 @@
 
 namespace Slim\Controllers;
 
-use Silex\Application; 
+use Silex\Application;
+use Slim\SlimPHP;
 
 class IndexController
 {
@@ -20,6 +21,7 @@ class IndexController
     public static function indexAction(Application $app)
     {
 
+        
         return $app['twig']->render('index.html.twig', []);
     }
 

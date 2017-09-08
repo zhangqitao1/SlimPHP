@@ -18,16 +18,21 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Slim\Providers\RouterProvider;
+use Slim\Providers\ServiceProvider;
 use Slim\Providers\UserProvider;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class SlimPHP extends Application
 {
 
     use Application\SecurityTrait;
+    use Application\MonologTrait;
     public $config;
 
     public static function app()
@@ -50,15 +55,6 @@ class SlimPHP extends Application
         $this->register(new RouterProvider());
         $this->register(new HttpFragmentServiceProvider());
         $this->register(new SessionServiceProvider());
-        $this->register(new SecurityServiceProvider(), [
-            'security.firewalls' => [
-                'admin' => [
-                    'pattern' => '^/admin',
-                    'http'    => true,
-                    'users'   => new UserProvider(),
-                ],
-            ],
-        ]);
 
         $this['twig'] = $this->extend('twig', function ($twig) {
 
@@ -74,12 +70,6 @@ class SlimPHP extends Application
         $this['twig.path']    = [$this->getConfigKey('app.dir.template')];
         $this['twig.options'] = ['cache' => $this->getConfigKey('app.dir.cache') . '/twig'];
 
-        ////add log
-        //$logHander = new LogHander($this->getConfigKey('app.dir.log'));
-        //$log       = new Logger('mlogging-logger');
-        //$log->pushHandler($logHander);
-        //$this['loger'] = $log;
-
         //add container
         $builder = new ContainerBuilder();
         foreach ($this->config as $k => &$v) {
@@ -91,10 +81,38 @@ class SlimPHP extends Application
         $builder->compile();
         $this['container'] = $builder;
 
-        $this->register(new MonologServiceProvider(), [
-            'monolog.logfile' => implode('/',
-                                         [$this->getConfigKey('app.dir.log'), date('Ymd'), basename($_SERVER['SCRIPT_FILENAME'])]),
+        // add logs
+        $logPath = implode('/', [
+            $this->getConfigKey('app.dir.log'),
+            date('Ymd'),
+            basename($_SERVER['SCRIPT_FILENAME']),
         ]);
+        $this->register(new MonologServiceProvider(), [
+            'monolog.logfile' => $logPath,
+        ]);
+    }
+
+    public function run(Request $request = null)
+    {
+
+        $this->register(new ServiceProvider($this));
+        $this->register(new SecurityServiceProvider(), [
+            'security.firewalls' => [
+                'admin' => [
+                    'pattern' => '^/admin',
+                    'http'    => true,
+                    'users'   => new UserProvider(),
+                ],
+            ],
+        ]);
+
+        if (null === $request) {
+            $request = Request::createFromGlobals();
+        }
+
+        $response = $this->handle($request);
+        $response->send();
+        $this->terminate($request, $response);
     }
 
     public function getConfigKey($key)
@@ -162,6 +180,29 @@ class SlimPHP extends Application
     public function getLoger()
     {
 
-        return $this['loger'];
+        return $this['monolog'];
+    }
+
+    /**
+     * @return TokenInterface|null
+     */
+    public function getToken()
+    {
+
+        return $this['security.token_storage']->getToken();
+    }
+
+    /**
+     * @return UserInterface | null
+     */
+    public function getUser()
+    {
+
+        $user  = null;
+        $token = $this->getToken();
+        if (null !== $token) {
+            $user = $token->getUser();
+        }
+        return $user;
     }
 }

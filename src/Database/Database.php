@@ -18,6 +18,10 @@ use Slim\SlimPHP;
 class Database
 {
 
+    /**
+     * @return \Doctrine\ORM\EntityManager|null
+     * @throws \Doctrine\ORM\ORMException
+     */
     public static function getEntityManager()
     {
 
@@ -52,9 +56,8 @@ class Database
     public static function getMemcache()
     {
 
-        
-        $memcached      = SlimPHP::app()->getServiceId('memcached');
-        $memcache  = new MemcachedCache(); 
+        $memcached = SlimPHP::app()->getServiceId('memcached');
+        $memcache  = new MemcachedCache();
         $memcache->setMemcached($memcached);
 
         return $memcache;
