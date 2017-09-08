@@ -41,7 +41,7 @@ class ServiceProvider implements ServiceProviderInterface
         $app['argument_value_resolvers'] = function () {
 
             $argResolver = [
-                new ArgumentValueResolver($this->app),
+                new InjectionResolver($this->app),
             ];
             return array_merge($argResolver, ArgumentResolver::getDefaultArgumentValueResolvers());
         };

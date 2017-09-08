@@ -8,27 +8,25 @@
 
 namespace Slim\Controllers;
 
+use Doctrine\Common\Cache\MemcachedCache;
+use Doctrine\ORM\EntityManager;
 use Silex\Application;
 use Slim\SlimPHP;
 
 class IndexController
 {
-
-    /**
-     * @param \Silex\Application $app
-     * @return mixed
-     */
-    public static function indexAction(Application $app)
+ 
+    public static function indexAction(SlimPHP $app,EntityManager $entityManager,MemcachedCache $cache)
     {
 
         
-        return $app['twig']->render('index.html.twig', []);
+        return $app->getTwig()->render('index.html.twig', []);
     }
 
-    public static function loginAction(Application $app)
+    public static function loginAction(SlimPHP $app)
     {
 
-        return $app['twig']->render('index.html.twig', []);
+        return $app->getTwig()->render('index.html.twig', []);
     }
     public static function login_check(Application $app)
     {

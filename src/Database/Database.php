@@ -35,32 +35,39 @@ class Database
         $config   = Setup::createAnnotationMetadataConfiguration(
             [PROJECT_DIR . "/src/Entities"],
             $app['debug'],
-            $app->getConfigKey('app.dir.data') . "/proxies",
+            $app['app.dir.data'] . "/proxies",
             $memcache,
             false /* do not use simple annotation reader, so that we can understand annotations like @ORM/Table */
         );
-        $config->addEntityNamespace("", "Oasis\\Watch\\Entities");
+        $config->addEntityNamespace("", "Slim\\Entities");
 
         $regconfig = new RegionsConfiguration();
         $factory   = new DefaultCacheFactory($regconfig, $memcache);
         $config->setSecondLevelCacheEnabled();
         $config->getSecondLevelCacheConfiguration()->setCacheFactory($factory);
 
-        $conn           = $app->getConfigKey('app.db');
+        $conn           = $app['app.db'];
         $conn["driver"] = "pdo_mysql";
         $entityManager  = EntityManager::create($conn, $config);
 
         return $entityManager;
     }
 
+    /**
+     * @return \Doctrine\Common\Cache\MemcachedCache
+     */
     public static function getMemcache()
     {
 
-        $memcached = SlimPHP::app()->getServiceId('memcached');
-        $memcache  = new MemcachedCache();
-        $memcache->setMemcached($memcached);
+        static $memcachedcache = null;
+        if ($memcachedcache instanceof MemcachedCache) {
+            return $memcachedcache;
+        }
+        $memcached      = SlimPHP::app()->getServiceId('memcached');
+        $memcachedcache = new MemcachedCache();
+        $memcachedcache->setMemcached($memcached);
 
-        return $memcache;
+        return $memcachedcache;
     }
 
 }

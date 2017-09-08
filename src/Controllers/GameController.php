@@ -8,28 +8,25 @@
 
 namespace Slim\Controllers;
  
+use Doctrine\ORM\EntityManager;
 use Silex\Application;
-use Slim\Database\Database;
-use Slim\Entities\Game; 
+use Slim\Entities\Game;
+use Slim\SlimPHP;
 
 class GameController
 {
 
-    /**
-     * @param \Silex\Application $app
-     * @return mixed
-     */
-    public static function indexAction(Application $app,$code)
+    public static function indexAction(SlimPHP $app,EntityManager $entityManager,$code)
     {
 
-        $entityManager= Database::getEntityManager();
+        echo $app['debug'];
         $game =  $entityManager->find(Game::class,$code);
         print_r($game);
 
         return $code;
     }
 
-    public static function helloAction(Application $app)
+    public static function helloAction(SlimPHP $app)
     {
 
         return 'xx';

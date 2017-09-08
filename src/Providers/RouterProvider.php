@@ -36,15 +36,15 @@ class RouterProvider implements ServiceProviderInterface, EventListenerProviderI
             return new $app['route_class']();
         });
 
-        $app['routes_factory'] = $app->factory(function (SlimPHP $app) {
+        $app['routes_factory'] = $app->factory(function ($app) {
 
             $requestContext = $app['request_context'];
-            $locator        = new FileLocator([$app->getConfigKey('config_path')]);
+            $locator        = new FileLocator([$app['configPath']]);
             $loader         = new YamlFileLoader($locator);
             $router         = new Router(
                 $loader,
                 'routes.yml',
-                ['cache_dir' => $app->getConfigKey('app.dir.cache') . '/cache'],
+                ['cache_dir' => $app['app.dir.cache']],
                 $requestContext
             );
             return $router->getRouteCollection();

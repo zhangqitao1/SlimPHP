@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class ArgumentValueResolver implements ArgumentValueResolverInterface
+class InjectionResolver implements ArgumentValueResolverInterface
 {
 
     private $app;
@@ -30,7 +30,15 @@ class ArgumentValueResolver implements ArgumentValueResolverInterface
     public function supports(Request $request, ArgumentMetadata $argument)
     {
 
-        return true;
+        //return Request::class === $argument->getType() || is_subclass_of($argument->getType(), Request::class);
+
+        foreach ($this->app['resolver_auto_injections'] as $ob) {
+            if ($argument->getType() == get_class($ob)) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
     /**
@@ -39,6 +47,7 @@ class ArgumentValueResolver implements ArgumentValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
 
+        
         foreach ($this->app['resolver_auto_injections'] as $ob) {
             if ($argument->getType() == get_class($ob)) {
                 yield $ob;

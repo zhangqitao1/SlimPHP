@@ -1,8 +1,9 @@
 is_debug: true
 dir:
-    log: /data/logs/watch
-    data: /data/watch
-    cache: /Users/og/Documents/wwwroot/silex/cache
+    log: /data/logs/slimphp
+    data: /data/slimphp
+    cache: /Users/luguo/Documents/wwwroot/slim-php/cache
+    template: /Users/luguo/Documents/wwwroot/slim-php/template
 db:
     host: 127.0.0.1
     port: 3306
