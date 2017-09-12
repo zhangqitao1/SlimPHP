@@ -1,0 +1,9 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    Welcome to your new Silex Application!
+
+    {% if is_granted('ADMIN_ROLE') %}
+        ADMIN_ROLE
+    {% endif %}
+{% endblock %}
