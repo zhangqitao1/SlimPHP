@@ -11,7 +11,7 @@ hello:
 login:
     path: /login
     defaults:
-        _controller: 'IndexController::loginAction'
+        _controller: 'Slim\Controllers\IndexController::loginAction'
 login_check:
     path: /login_check
     defaults:

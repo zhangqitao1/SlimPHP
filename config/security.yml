@@ -1,0 +1,14 @@
+
+
+security:
+    firewalls:
+        admin:
+            pattern: '^/admin'
+            form:
+                login_path: '/login'
+                check_path: '/admin/login_check'
+            logout:
+                logout_path: '/admin/logout'
+            users:
+                class: Slim\Providers\UserProvider
+

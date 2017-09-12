@@ -14,14 +14,9 @@ use Slim\SlimPHP;
 $app = require_once __DIR__ . "/bootstrap.php";
  
  
-//$app->log()->addDebug('x');
 
+ 
+$app['a']='bbb';
 
-//$em = Database::getEntityManager();
-//$games = $em->getRepository(Game::class)->findAll();
-//
-//print_r($games);
-
-$a = SlimPHP::app();
-$a->getServiceId('memcached');
+var_dump($app);
 

@@ -20,3 +20,5 @@ services:
         factory:
             - Slim\Database\Database
             - getMemcache
+    user_provider:
+        class: Slim\Providers\UserProvider

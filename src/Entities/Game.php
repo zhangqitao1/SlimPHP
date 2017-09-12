@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Game
- * @package Oasis\Watch\Entities
+ * @package Slim\Entities
  * @ORM\Entity()
  * @ORM\Table(name="games")
  */
@@ -25,6 +25,7 @@ class Game
      * @ORM\Column(type="string", nullable=true, length=64)
      */
     protected $code;
+
 
     /**
      * @var integer

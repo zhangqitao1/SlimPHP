@@ -8,6 +8,7 @@
 
 namespace Slim\Providers;
 
+use Slim\Database\Database;
 use Slim\Entities\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -18,7 +19,8 @@ class UserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
 
-        return new User($username, '$2y$10$3i9/lVd8UOFIJ6PAMFt8gu3/r5g0qeCJvoSlLCsvMTythye19F77a',['ADMIN_ROLE']);
+        $em = Database::getEntityManager();
+        return $em->getRepository(User::class)->findOneBy(['username' => $username]);
     }
 
     /**

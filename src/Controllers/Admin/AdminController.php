@@ -2,11 +2,12 @@
 
 namespace Slim\Controllers\Admin;
 
-
 use Doctrine\Common\Cache\MemcachedCache;
 use Doctrine\ORM\EntityManager;
 use Silex\Application;
+use Slim\Entities\User;
 use Slim\SlimPHP;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Created by PhpStorm.
@@ -17,14 +18,17 @@ use Slim\SlimPHP;
 class AdminController
 {
 
-    public static function indexAction(SlimPHP $app, EntityManager $entityManager, MemcachedCache $cache)
+    public static function indexAction(SlimPHP $app, EntityManager $entityManager, MemcachedCache $cache, Request $request)
     {
 
-        print_r($app->getConfigKey('app.db'));
-        $user = SlimPHP::app()->getUser();
-        print_r($user);
+        $user =new User('bbb','bbb');
 
-        return $app['twig']->render('index.html.twig', []);
+
+        echo $app->encodePassword($user,123456);
+
+        return $app['twig']->render('admin/index.twig', [
+            'user' => $user,
+        ]);
     }
 
 }

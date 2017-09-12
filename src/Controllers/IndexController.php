@@ -12,6 +12,7 @@ use Doctrine\Common\Cache\MemcachedCache;
 use Doctrine\ORM\EntityManager;
 use Silex\Application;
 use Slim\SlimPHP;
+use Symfony\Component\HttpFoundation\Request;
 
 class IndexController
 {
@@ -23,10 +24,14 @@ class IndexController
         return $app->getTwig()->render('index.html.twig', []);
     }
 
-    public static function loginAction(SlimPHP $app)
+    public static function loginAction(SlimPHP $app,Request  $request)
     {
 
-        return $app->getTwig()->render('index.html.twig', []);
+        return $app['twig']->render('login.twig', [
+            'error'         => $app['security.last_error']($request),
+            'last_username' => $app['session']->get('_security.last_username'),
+        ]);
+
     }
     public static function login_check(Application $app)
     {

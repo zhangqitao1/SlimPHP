@@ -1,9 +1,19 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-    Welcome to your new Silex Application!
 
-    {% if is_granted('ADMIN_ROLE') %}
+
+    {% if is_granted('ROLE_ADMIN') %}
         ADMIN_ROLE
+    {% else %}
+        asdf
     {% endif %}
+
+
+    <div>
+        {{ user.getUserName() }}
+    </div>
+    <div>
+        <a href="{{ path('admin_logout') }}">Logout</a>
+    </div>
 {% endblock %}

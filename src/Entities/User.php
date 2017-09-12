@@ -8,18 +8,61 @@
 
 namespace Slim\Entities;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements AdvancedUserInterface
+/**
+ * Class User
+ * @package Slim\Entities
+ * @ORM\Entity()
+ * @ORM\Table(name="users")
+ */
+class User implements UserInterface
 {
 
+    /**
+     * @var integer
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true, length=64)
+     */
     private $username;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $password;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $enabled;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $accountNonExpired;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $credentialsNonExpired;
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $accountNonLocked;
-    private $roles;
+    /**
+     * @var array
+     * @ORM\Column(type="json_array", nullable=true)
+     */
+    private $roles = [];
 
     public function __construct(
         $username, $password, array $roles = [], $enabled = true, $userNonExpired = true, $credentialsNonExpired = true,
@@ -122,4 +165,15 @@ class User implements AdvancedUserInterface
     public function eraseCredentials()
     {
     }
+
+    /**
+     * @param array  $roles
+     */
+    public function setRoles($roles)
+    {
+
+        $this->roles = $roles;
+    }
+
+    
 }

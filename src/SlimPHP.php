@@ -93,11 +93,14 @@ class SlimPHP extends Application
             'security.firewalls' => [
                 'admin' => [
                     'pattern' => '^/admin',
-                    'http'    => true,
+                    //'http'    => true,
+                    'form'    => ['login_path' => '/login', 'check_path' => '/admin/login_check'],
+                    'logout'  => ['logout_path' => '/admin/logout', 'invalidate_session' => true],
                     'users'   => new UserProvider(),
                 ],
             ],
         ]);
+        $this->boot();
 
         if (null === $request) {
             $request = Request::createFromGlobals();
