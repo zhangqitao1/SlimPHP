@@ -19,23 +19,16 @@ class IndexController
  
     public static function indexAction(SlimPHP $app,EntityManager $entityManager,MemcachedCache $cache)
     {
-
-        
-        return $app->getTwig()->render('index.html.twig', []);
+        return $app->redirect('/admin');
     }
 
     public static function loginAction(SlimPHP $app,Request  $request)
     {
 
-        return $app['twig']->render('login.twig', [
+        return $app['twig']->render('admin/login.twig', [
             'error'         => $app['security.last_error']($request),
             'last_username' => $app['session']->get('_security.last_username'),
         ]);
 
-    }
-    public static function login_check(Application $app)
-    {
-
-        return true;
-    }
+    } 
 }

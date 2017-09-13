@@ -7,10 +7,8 @@ set_time_limit(0);
 
 use Slim\Commands\TestCommand;
 use Slim\SlimPHP;
-use Symfony\Component\Console\Input\ArgvInput;
 
-$input = new ArgvInput();
-$env   = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV') ?: 'dev');
+
 
 /** @var SlimPHP $app */
 $app = require __DIR__ . '/../bootstrap.php';

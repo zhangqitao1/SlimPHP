@@ -2,12 +2,6 @@ home:
     path: /
     defaults:
         _controller: 'Slim\Controllers\IndexController::indexAction'
-
-hello:
-    path: /admin
-    defaults:
-        _controller: 'Slim\Controllers\Admin\AdminController::indexAction'
-
 login:
     path: /login
     defaults:
@@ -16,6 +10,13 @@ login_check:
     path: /login_check
     defaults:
         _controller: 'IndexController::loginCheckAction'
+
+admin:
+    path: /admin
+    defaults:
+        _controller: 'Slim\Controllers\Admin\AdminController::indexAction'
+
+
 
 api:
     prefix: api/

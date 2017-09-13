@@ -21,10 +21,10 @@ class AdminController
     public static function indexAction(SlimPHP $app, EntityManager $entityManager, MemcachedCache $cache, Request $request)
     {
 
-        $user =new User('bbb','bbb');
-
-
-        echo $app->encodePassword($user,123456);
+        //$user =new User('bbb','bbb');
+        //
+        //
+        // $app->encodePassword($user,123456);
 
         return $app['twig']->render('admin/index.twig', [
             'user' => $user,

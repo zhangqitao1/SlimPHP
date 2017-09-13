@@ -1,7 +1,7 @@
-{% extends "layout.html.twig" %}
+{% extends "admin/base.twig" %}
+{% set pageName %}Index{% endset %}
 
 {% block content %}
-
 
     {% if is_granted('ROLE_ADMIN') %}
         ADMIN_ROLE
@@ -9,11 +9,4 @@
         asdf
     {% endif %}
 
-
-    <div>
-        {{ user.getUserName() }}
-    </div>
-    <div>
-        <a href="{{ path('admin_logout') }}">Logout</a>
-    </div>
 {% endblock %}
